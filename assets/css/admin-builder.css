@@ -1,0 +1,392 @@
+/* ================================================================
+   Sportshop Page Builder — Admin UI
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Корневой контейнер
+   ---------------------------------------------------------------- */
+
+.spb-builder {
+	padding: 4px 0 8px;
+	font-size: 13px;
+}
+
+.spb-builder__footer {
+	margin-top: 10px;
+}
+
+/* ----------------------------------------------------------------
+   Drag handles
+   ---------------------------------------------------------------- */
+
+.spb-drag {
+	color: #a7aaad;
+	cursor: grab;
+	flex-shrink: 0;
+}
+.spb-drag:active { cursor: grabbing; }
+
+/* ================================================================
+   СТРОКА (row)
+   ================================================================ */
+
+.spb-row-wrap {
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	background: #fff;
+}
+
+/* Шапка строки */
+
+.spb-row-head {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 10px;
+	background: #1d2327;
+	border-radius: 4px 4px 0 0;
+	color: #f0f0f1;
+	position: relative;
+}
+
+.spb-row-head__label {
+	font-weight: 600;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: .05em;
+	flex: 1;
+	color: #a7aaad;
+}
+
+.spb-row-head .button {
+	padding: 2px 8px;
+	height: auto;
+	line-height: 1.6;
+	font-size: 12px;
+	background: transparent;
+	border-color: #50575e;
+	color: #f0f0f1;
+	box-shadow: none;
+}
+.spb-row-head .button:hover {
+	background: #2c3338;
+	border-color: #a7aaad;
+	color: #fff;
+}
+
+.spb-row-del {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 2px;
+	color: #50575e;
+	display: flex;
+	align-items: center;
+	margin-left: 4px;
+}
+.spb-row-del:hover { color: #d63638; }
+
+/* Выбор макета */
+
+.spb-layout-picker {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 200;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	box-shadow: 0 3px 10px rgba(0,0,0,.15);
+	padding: 8px;
+	display: none;
+	flex-wrap: wrap;
+	gap: 6px;
+	width: 280px;
+}
+.spb-layout-picker.is-open {
+	display: flex;
+}
+
+.spb-layout-preset {
+	background: #f6f7f7;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	padding: 5px 8px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	font-size: 11px;
+	color: #50575e;
+	transition: border-color .15s, background .15s;
+}
+.spb-layout-preset:hover {
+	border-color: #2271b1;
+	background: #f0f6fc;
+	color: #2271b1;
+}
+
+.spb-layout-icon {
+	display: flex;
+	gap: 2px;
+	width: 60px;
+	height: 20px;
+}
+.spb-layout-icon__col {
+	background: #c3c4c7;
+	border-radius: 2px;
+	min-width: 4px;
+}
+.spb-layout-preset:hover .spb-layout-icon__col {
+	background: #2271b1;
+}
+
+/* ================================================================
+   КОЛОНКИ (cols)
+   ================================================================ */
+
+.spb-cols {
+	display: flex;
+	gap: 0;
+	padding: 8px;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+
+.spb-col-wrap {
+	flex: 1;
+	min-width: 120px;
+	border: 1px dashed #c3c4c7;
+	border-radius: 4px;
+	padding: 6px;
+	margin: 4px;
+	background: #f6f7f7;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+/* Шапка колонки */
+
+.spb-col-head {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding: 4px 0;
+}
+
+.spb-col-head__label {
+	font-size: 11px;
+	color: #a7aaad;
+	flex: 1;
+}
+
+.spb-col-width {
+	font-size: 12px;
+	padding: 1px 4px;
+	height: 24px;
+	border-color: #c3c4c7;
+	border-radius: 3px;
+	background: #fff;
+	color: #1d2327;
+}
+
+.spb-col-del {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 2px;
+	color: #a7aaad;
+	display: flex;
+	align-items: center;
+}
+.spb-col-del:hover { color: #d63638; }
+
+/* Список блоков внутри колонки */
+
+.spb-col-blocks {
+	min-height: 40px;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+/* Подвал колонки — добавить блок */
+
+.spb-col-footer {
+	position: relative;
+}
+
+.spb-add-block-btn {
+	width: 100%;
+	text-align: center;
+	font-size: 12px;
+	padding: 3px 0;
+}
+
+.spb-block-picker {
+	display: none;
+	position: absolute;
+	bottom: 100%;
+	left: 0;
+	z-index: 150;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0,0,0,.12);
+	min-width: 160px;
+	margin-bottom: 4px;
+}
+.spb-block-picker.is-open { display: block; }
+
+.spb-pick-block {
+	display: block;
+	width: 100%;
+	text-align: left;
+	background: none;
+	border: none;
+	border-bottom: 1px solid #f0f0f1;
+	padding: 7px 12px;
+	cursor: pointer;
+	font-size: 12px;
+	color: #1d2327;
+}
+.spb-pick-block:last-child { border-bottom: none; }
+.spb-pick-block:hover { background: #f0f6fc; color: #2271b1; }
+
+/* ================================================================
+   БЛОК (block)
+   ================================================================ */
+
+.spb-block-item {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+}
+
+.spb-block-head {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding: 6px 8px;
+	cursor: pointer;
+	user-select: none;
+	border-radius: 3px;
+}
+.spb-block-item--open .spb-block-head {
+	border-radius: 3px 3px 0 0;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.spb-block-head__label {
+	font-size: 12px;
+	font-weight: 600;
+	flex: 1;
+	color: #1d2327;
+}
+
+.spb-block-toggle {
+	color: #a7aaad;
+	font-size: 14px;
+	transition: transform .15s;
+}
+.spb-block-item--open .spb-block-toggle {
+	transform: rotate(180deg);
+}
+
+.spb-block-del {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 2px;
+	color: #a7aaad;
+	display: flex;
+}
+.spb-block-del:hover { color: #d63638; }
+
+/* Тело блока */
+
+.spb-block-body {
+	display: none;
+	padding: 10px;
+}
+.spb-block-item--open .spb-block-body {
+	display: block;
+}
+
+/* ================================================================
+   ПОЛЯ
+   ================================================================ */
+
+.spb-field {
+	margin-bottom: 10px;
+}
+.spb-field:last-child { margin-bottom: 0; }
+
+.spb-field__label {
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	color: #50575e;
+	margin-bottom: 4px;
+}
+
+.spb-field__input {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* Поле изображения */
+
+.spb-img-wrap {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.spb-img-slug {
+	font-family: monospace;
+	font-size: 11px;
+	background: #f0f0f1;
+	padding: 3px 7px;
+	border-radius: 3px;
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: #1d2327;
+}
+.spb-img-slug--empty { color: #a7aaad; }
+
+/* ================================================================
+   Drag-and-drop Placeholders (jQuery UI)
+   ================================================================ */
+
+.spb-placeholder {
+	background: #e5f0fa;
+	border: 2px dashed #2271b1;
+	border-radius: 4px;
+	visibility: visible !important;
+}
+
+.spb-placeholder--row {
+	height: 60px;
+	margin-bottom: 10px;
+}
+
+.spb-placeholder--col {
+	min-width: 80px;
+	margin: 4px;
+	min-height: 60px;
+}
+
+.spb-placeholder--block {
+	min-height: 36px;
+	margin-bottom: 5px;
+}
+
+/* Frontend стили вынесены в assets/css/frontend.css */

@@ -1,0 +1,383 @@
+/* ================================================================
+   Sportshop Page Builder — Frontend
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Сетка: layout → row → col
+   ---------------------------------------------------------------- */
+
+.spb-layout {
+	width: 100%;
+}
+
+.spb-row {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -15px;
+}
+
+.spb-col {
+	box-sizing: border-box;
+	padding: 0 15px;
+	min-width: 0;
+}
+
+.spb-col--25  { width: 25%; }
+.spb-col--33  { width: 33.333%; }
+.spb-col--50  { width: 50%; }
+.spb-col--66  { width: 66.666%; }
+.spb-col--75  { width: 75%; }
+.spb-col--100 { width: 100%; }
+
+@media (max-width: 768px) {
+	.spb-row { margin: 0; }
+	.spb-col { width: 100% !important; padding: 0; }
+}
+
+/* ----------------------------------------------------------------
+   Блок — общая обёртка
+   ---------------------------------------------------------------- */
+
+.spb-block {
+	margin-bottom: 24px;
+}
+
+/* ================================================================
+   Блок: Текст (.spb-block--text)
+   ================================================================ */
+
+.spb-text__title {
+	margin: 0 0 12px;
+	font-size: 22px;
+	line-height: 1.3;
+}
+
+.spb-text__body {
+	line-height: 1.65;
+}
+
+.spb-text__body p:first-child { margin-top: 0; }
+.spb-text__body p:last-child  { margin-bottom: 0; }
+
+/* ================================================================
+   Блок: Текст + изображение (.spb-block--text-image)
+   ================================================================ */
+
+.spb-text-image {
+	display: flex;
+	gap: 24px;
+	align-items: flex-start;
+}
+
+/* Изображение слева */
+.spb-text-image--left { flex-direction: row; }
+
+/* Изображение справа */
+.spb-text-image--right { flex-direction: row-reverse; }
+
+.spb-text-image__media {
+	flex-shrink: 0;
+	width: 45%;
+}
+
+.spb-text-image__media img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+
+.spb-text-image__content {
+	flex: 1;
+	min-width: 0;
+}
+
+.spb-text-image__title {
+	margin: 0 0 12px;
+	font-size: 22px;
+	line-height: 1.3;
+}
+
+.spb-text-image__body {
+	line-height: 1.65;
+}
+.spb-text-image__body p:first-child { margin-top: 0; }
+.spb-text-image__body p:last-child  { margin-bottom: 0; }
+
+.spb-text-image__link {
+	display: inline-block;
+	margin-top: 16px;
+	padding: 8px 20px;
+	background: #2271b1;
+	color: #fff;
+	border-radius: 4px;
+	text-decoration: none;
+	font-size: 14px;
+	transition: background .15s;
+}
+.spb-text-image__link:hover { background: #135e96; color: #fff; }
+
+@media (max-width: 768px) {
+	.spb-text-image,
+	.spb-text-image--left,
+	.spb-text-image--right {
+		flex-direction: column;
+	}
+
+	.spb-text-image__media {
+		width: 100%;
+	}
+}
+
+/* ================================================================
+   Блок: Баннер (.spb-block--banner)
+   ================================================================ */
+
+.spb-banner {
+	position: relative;
+	background-color: #1d2327;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 6px;
+	overflow: hidden;
+	min-height: 260px;
+	display: flex;
+	align-items: center;
+}
+
+/* Затемняющий оверлей поверх фонового изображения */
+.spb-banner::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, .45);
+}
+
+.spb-banner__inner {
+	position: relative;
+	z-index: 1;
+	padding: 40px 48px;
+	max-width: 600px;
+}
+
+.spb-banner__title {
+	margin: 0 0 10px;
+	font-size: 28px;
+	line-height: 1.2;
+	color: #fff;
+}
+
+.spb-banner__subtitle {
+	margin: 0 0 20px;
+	font-size: 16px;
+	color: rgba(255,255,255,.85);
+	line-height: 1.5;
+}
+
+.spb-banner__btn {
+	display: inline-block;
+	padding: 10px 26px;
+	background: #fff;
+	color: #1d2327;
+	border-radius: 4px;
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: 600;
+	transition: background .15s, color .15s;
+}
+.spb-banner__btn:hover {
+	background: #f0f0f1;
+	color: #1d2327;
+}
+
+@media (max-width: 768px) {
+	.spb-banner { min-height: 200px; }
+	.spb-banner__inner { padding: 28px 24px; }
+	.spb-banner__title { font-size: 22px; }
+}
+
+/* ================================================================
+   Блок: Карточка калькулятора (.spb-block--calc-card)
+   ================================================================ */
+
+.spb-calc-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border-radius: 5px;
+	background-color: #1a2535;
+	min-height: 320px;
+	text-decoration: none;
+	color: #fff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+}
+
+.spb-calc-card:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+/* ─── Фоновое изображение — анимируется независимо ─── */
+
+.spb-calc-card__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	transform-origin: center;
+	transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+}
+
+.spb-calc-card:hover .spb-calc-card__bg {
+	transform: scale(1.07);
+}
+
+/* ─── Оверлей — многослойный градиент ─── */
+
+.spb-calc-card__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background:
+		/* верхний край — слабое затемнение */
+		linear-gradient(180deg, rgba(0,0,0,.18) 0%, transparent 35%),
+		/* нижняя половина — основной тёмный блок */
+		linear-gradient(0deg, rgba(10,15,30,.90) 0%, rgba(10,15,30,.55) 55%, transparent 100%);
+	transition: background .35s ease;
+}
+
+.spb-calc-card:hover .spb-calc-card__overlay {
+	background:
+		linear-gradient(180deg, rgba(0,0,0,.22) 0%, transparent 35%),
+		linear-gradient(0deg, rgba(10,15,30,.96) 0%, rgba(10,15,30,.65) 55%, transparent 100%);
+}
+
+/* ─── Декоративная угловая сетка ─── */
+
+.spb-calc-card__deco {
+	position: absolute;
+	top: -32px;
+	right: -32px;
+	width: 180px;
+	height: 180px;
+	z-index: 2;
+	border-radius: 50%;
+	background:
+		radial-gradient(circle at 70% 30%, rgba(255,255,255,.07) 0%, transparent 70%);
+	/* Имитация технической сетки через repeating-linear-gradient */
+	mask-image: repeating-linear-gradient(
+		0deg,
+		transparent,
+		transparent 14px,
+		rgba(255,255,255,.15) 14px,
+		rgba(255,255,255,.15) 15px
+	),
+	repeating-linear-gradient(
+		90deg,
+		transparent,
+		transparent 14px,
+		rgba(255,255,255,.15) 14px,
+		rgba(255,255,255,.15) 15px
+	);
+	/* Фоллбэк для браузеров без mask — просто тонкая окружность */
+	border: 1px solid rgba(255,255,255,.06);
+	transition: transform .35s ease, opacity .35s ease;
+	opacity: .6;
+}
+
+.spb-calc-card:hover .spb-calc-card__deco {
+	transform: scale(1.15) rotate(8deg);
+	opacity: 1;
+}
+
+/* ─── Основное тело ─── */
+
+.spb-calc-card__body {
+	position: relative;
+	z-index: 3;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	flex: 1;
+	padding: 28px 28px 24px;
+	gap: 16px;
+}
+
+/* ─── Метка / тег ─── */
+
+.spb-calc-card__tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	align-self: flex-start;
+	padding: 5px 11px 5px 9px;
+	background: rgba(255,255,255,.12);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	border: 1px solid rgba(255,255,255,.18);
+	border-radius: 20px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	color: rgba(255,255,255,.9);
+	transition: background .25s, border-color .25s;
+}
+
+.spb-calc-card:hover .spb-calc-card__tag {
+	background: rgba(255,255,255,.2);
+	border-color: rgba(255,255,255,.3);
+}
+
+.spb-calc-card__tag-icon {
+	flex-shrink: 0;
+	opacity: .85;
+}
+
+/* ─── Текст ─── */
+
+.spb-calc-card__text {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.spb-calc-card__title {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #fff;
+}
+
+.spb-calc-card__subtitle {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #f0851a;
+}
+
+/* ─── Футер ─── */
+
+.spb-calc-card__footer {
+	border-top: 1px solid rgba(255,255,255,.12);
+	padding-top: 16px;
+}
+
+/* ─── Без изображения — fallback градиент ─── */
+
+.spb-calc-card--no-image {
+	background-image: linear-gradient(135deg, #1a2535 0%, #243447 100%);
+}
+
+/* ─── Адаптив ─── */
+
+@media (max-width: 768px) {
+	.spb-calc-card { min-height: 260px; }
+	.spb-calc-card__body { padding: 20px 20px 18px; }
+	.spb-calc-card__title { font-size: 20px; }
+}
