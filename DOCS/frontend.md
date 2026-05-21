@@ -69,7 +69,7 @@ $rows = spb_get_blocks(get_the_ID());
 | `text` | `text.php` | `title`, `text` |
 | `text_image` | `text-image.php` | `title`, `text`, `image`, `image_position`, `link_url`, `link_label` |
 | `banner` | `banner.php` | `title`, `subtitle`, `bg_image`, `link_url`, `link_label` |
-| `calc_card` | `calc-card.php` | `title`, `subtitle`, `tag`, `bg_image`, `link_url` |
+| `calc_card` | `calc-card.php` | `title`, `subtitle`, `tag`, `bg_image`, `bg_image_url`, `link_url` |
 
 Изображение в шаблоне:
 ```php

@@ -6,20 +6,21 @@
  */
 if ( ! defined( 'ABSPATH' ) ) die( 'Forbidden' );
 
-$bg_url   = spb_get_image_url( $block['bg_image'] ?? '' );
+$bg_image_url = trim( $block['bg_image_url'] ?? '' );
+$bg_url       = $bg_image_url ? home_url( $bg_image_url ) : spb_get_image_url( $block['bg_image'] ?? '' );
 $link_url = $block['link_url'] ?? '';
 $title    = $block['title']    ?? '';
 $subtitle = $block['subtitle'] ?? '';
 $tag      = $block['tag']      ?? '';
 
-/* Относительная ссылка: если передан полный URL — берём только path */
-if ( $link_url && preg_match( '#^https?://#', $link_url ) ) {
-	$parsed   = wp_parse_url( $link_url );
-	$link_url = ( $parsed['path'] ?? '/' )
-		. ( isset( $parsed['query'] ) ? '?' . $parsed['query'] : '' );
+/* Нормализация: хранится относительный путь (/slug/) → добавляем home_url() */
+if ( $link_url && ! preg_match( '#^https?://#', $link_url ) ) {
+	$link_url = home_url( $link_url );
+} elseif ( $link_url && preg_match( '#^https?://#', $link_url ) ) {
+	/* Полный URL: оставляем как есть (возможно задан вручную) */
 }
 
-$bg_style = $bg_url ? ' style="background-image:url(' . esc_url( $bg_url ) . ')"' : '';
+$bg_style = $bg_url ? ' style="background-image:url(' . esc_attr( $bg_url ) . ')"' : '';
 ?>
 <a class="spb-calc-card<?php echo $bg_url ? '' : ' spb-calc-card--no-image'; ?>"
    href="<?php echo esc_attr( $link_url ); ?>">

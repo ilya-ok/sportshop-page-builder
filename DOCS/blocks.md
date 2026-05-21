@@ -7,7 +7,15 @@
 | `text` | `SPB_Block_Text` | `templates/blocks/text.php` | title, text |
 | `text_image` | `SPB_Block_Text_Image` | `templates/blocks/text-image.php` | title, text, image, image_position, link_url, link_label |
 | `banner` | `SPB_Block_Banner` | `templates/blocks/banner.php` | title, subtitle, bg_image, link_url, link_label |
-| `calc_card` | `SPB_Block_Calc_Card` | `templates/blocks/calc-card.php` | title, subtitle, tag, bg_image, link_url |
+| `calc_card` | `SPB_Block_Calc_Card` | `templates/blocks/calc-card.php` | title, subtitle, tag, bg_image, bg_image_url, link_url |
+
+**Поля блока `calc_card` — фоновое изображение:**
+- `bg_image` — изображение из медиатеки (хранит slug вложения)
+- `bg_image_url` — относительный путь к файлу (приоритет над `bg_image`): `/wp-content/...`. Удобно для мультисайта — путь одинаков на всех сайтах, JSON копируется без изменений.
+
+**Рендер `bg_image_url` в шаблоне:** применяется `home_url($bg_image_url)` — необходимо когда WordPress установлен в подпапке (например `/sportshop/`). Без этого браузер резолвит путь от корня домена.
+
+**Рендер `link_url` в шаблоне:** хранится как относительный путь (`/slug/`). При рендере применяется `home_url($link_url)` — по той же причине. Полные URL (`https://...`) остаются без изменений.
 
 ## Типы полей (get_fields)
 
