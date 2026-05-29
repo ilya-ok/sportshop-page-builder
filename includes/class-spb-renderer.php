@@ -60,7 +60,7 @@ class SPB_Renderer {
 
 		ob_start();
 		$this->render( get_the_ID() );
-		return $content . ob_get_clean();
+		return ob_get_clean() . $content;
 	}
 
 	/**
