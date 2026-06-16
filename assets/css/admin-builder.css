@@ -310,11 +310,14 @@
 /* Тело блока */
 
 .spb-block-body {
-	display: none;
-	padding: 10px;
+	overflow: hidden;
+	max-height: 0;
+	padding: 0 10px;
+	transition: max-height 0.2s ease, padding 0.2s ease;
 }
 .spb-block-item--open .spb-block-body {
-	display: block;
+	max-height: 3000px;
+	padding: 10px;
 }
 
 /* ================================================================

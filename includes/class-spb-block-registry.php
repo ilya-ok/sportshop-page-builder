@@ -69,5 +69,6 @@ class SPB_Block_Registry {
 		$this->register( new SPB_Block_Text_Image() );
 		$this->register( new SPB_Block_Banner() );
 		$this->register( new SPB_Block_Calc_Card() );
+		$this->register( new SPB_Block_Link_Card() );
 	}
 }

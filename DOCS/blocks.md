@@ -8,6 +8,17 @@
 | `text_image` | `SPB_Block_Text_Image` | `templates/blocks/text-image.php` | title, text, image, image_position, link_url, link_label |
 | `banner` | `SPB_Block_Banner` | `templates/blocks/banner.php` | title, subtitle, bg_image, link_url, link_label |
 | `calc_card` | `SPB_Block_Calc_Card` | `templates/blocks/calc-card.php` | title, subtitle, tag, bg_image, bg_image_url, link_url |
+| `link_card` | `SPB_Block_Link_Card` | `templates/blocks/link-card.php` | title, image, image_url, link_url |
+
+**Поля блока `link_card`:**
+- `title` — надпись внизу карточки
+- `image` — изображение из медиатеки (хранит slug вложения)
+- `image_url` — относительный путь к файлу (приоритет над `image`): `/wp-content/...`
+- `link_url` — ссылка на страницу (относительная или полная)
+
+Рендер: карточка-ссылка целиком, изображение сверху (16:9, zoom при hover), надпись и стрелка в белом блоке снизу. CSS-переход `max-height` в admin-builder.css.
+
+---
 
 **Поля блока `calc_card` — фоновое изображение:**
 - `bg_image` — изображение из медиатеки (хранит slug вложения)

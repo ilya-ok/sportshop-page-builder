@@ -22,6 +22,7 @@ require_once SPB_PLUGIN_DIR . 'includes/blocks/class-spb-block-text.php';
 require_once SPB_PLUGIN_DIR . 'includes/blocks/class-spb-block-text-image.php';
 require_once SPB_PLUGIN_DIR . 'includes/blocks/class-spb-block-banner.php';
 require_once SPB_PLUGIN_DIR . 'includes/blocks/class-spb-block-calc-card.php';
+require_once SPB_PLUGIN_DIR . 'includes/blocks/class-spb-block-link-card.php';
 require_once SPB_PLUGIN_DIR . 'includes/class-spb-block-registry.php';
 require_once SPB_PLUGIN_DIR . 'includes/class-spb-admin.php';
 require_once SPB_PLUGIN_DIR . 'includes/class-spb-renderer.php';

@@ -404,9 +404,7 @@
 			// Добавляем блок в DOM без полного ре-рендера (сохраняем состояние DnD)
 			var $blockEl = renderBlock(block);
 			$col.find('.spb-col-blocks').append($blockEl);
-			$blockEl.find('.spb-block-body').hide();
 			$blockEl.addClass('spb-block-item--open');
-			$blockEl.find('.spb-block-body').slideDown(150);
 
 			// Переподключаем sortable для новых элементов
 			$col.find('.spb-col-blocks').sortable('refresh');
@@ -418,9 +416,7 @@
 		// Раскрыть/свернуть блок
 		$builder.on('click', '.spb-block-head', function (e) {
 			if ($(e.target).closest('.spb-block-del, .spb-block-drag').length) return;
-			var $item = $(this).closest('.spb-block-item');
-			$item.toggleClass('spb-block-item--open');
-			$item.find('.spb-block-body').slideToggle(150);
+			$(this).closest('.spb-block-item').toggleClass('spb-block-item--open');
 		});
 
 		// Удалить блок
