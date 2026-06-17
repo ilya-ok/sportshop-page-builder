@@ -392,4 +392,39 @@
 	margin-bottom: 5px;
 }
 
+/* ================================================================
+   HTML-поле с тулбаром
+   ================================================================ */
+
+.spb-html-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.spb-html-toolbar {
+	display: flex;
+	gap: 3px;
+	flex-wrap: wrap;
+}
+
+.spb-html-btn {
+	padding: 2px 8px;
+	font-size: 11px;
+	height: 24px;
+	line-height: 20px;
+	background: #f6f7f7;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	cursor: pointer;
+	color: #50575e;
+	font-family: monospace;
+	box-shadow: none;
+}
+.spb-html-btn:hover {
+	background: #f0f6fc;
+	border-color: #2271b1;
+	color: #2271b1;
+}
+
 /* Frontend стили вынесены в assets/css/frontend.css */

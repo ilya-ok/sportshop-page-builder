@@ -218,6 +218,29 @@
 					.attr('data-field', field.name).val(value);
 				break;
 
+			case 'html': {
+				var $toolbar = $('<div class="spb-html-toolbar">');
+				[
+					{ label: '<b>B</b>',          tag: 'strong', title: 'Жирный' },
+					{ label: '<i>I</i>',          tag: 'em',     title: 'Курсив' },
+					{ label: 'span.class',        tag: 'span',   title: 'span с CSS-классом', needsClass: true },
+					{ label: '↵ br',              tag: null,     title: 'Перенос строки', insert: '<br>' },
+				].forEach(function (t) {
+					$toolbar.append(
+						$('<button type="button" class="spb-html-btn">')
+							.attr('title', t.title)
+							.attr('data-tag', t.tag || '')
+							.attr('data-insert', t.insert || '')
+							.attr('data-needs-class', t.needsClass ? '1' : '')
+							.html(t.label)
+					);
+				});
+				var $ta = $('<textarea class="spb-field__input large-text" rows="3">')
+					.attr('data-field', field.name).val(value);
+				$ctrl = $('<div class="spb-html-wrap">').append($toolbar).append($ta);
+				break;
+			}
+
 			default:
 				$ctrl = $('<input type="text" class="spb-field__input large-text">')
 					.attr('data-field', field.name).val(value);
@@ -462,6 +485,51 @@
 			$wrap.find('.spb-img-slug').text(spbConfig.strings.noImage).addClass('spb-img-slug--empty');
 			$(this).remove();
 			collectAndSync();
+		});
+
+		// ---------- HTML-тулбар ----------
+
+		$builder.on('click', '.spb-html-btn', function (e) {
+			e.preventDefault();
+			var tag       = $(this).attr('data-tag');
+			var insert    = $(this).attr('data-insert');
+			var needsClass = $(this).attr('data-needs-class') === '1';
+			var $ta       = $(this).closest('.spb-html-wrap').find('textarea');
+			var el        = $ta[0];
+			var start     = el.selectionStart;
+			var end       = el.selectionEnd;
+			var selected  = el.value.substring(start, end);
+			var before    = el.value.substring(0, start);
+			var after     = el.value.substring(end);
+			var result, cursorPos;
+
+			if (insert) {
+				result    = before + insert + after;
+				cursorPos = start + insert.length;
+			} else if (tag) {
+				var attrs = '';
+				if (needsClass) {
+					var cls = prompt('CSS класс для <span>:', '');
+					if (cls === null) { el.focus(); return; }
+					if (cls.trim()) { attrs = ' class="' + cls.trim() + '"'; }
+				}
+				var open  = '<' + tag + attrs + '>';
+				var close = '</' + tag + '>';
+				if (selected) {
+					result    = before + open + selected + close + after;
+					cursorPos = start + open.length + selected.length + close.length;
+				} else {
+					result    = before + open + close + after;
+					cursorPos = start + open.length;
+				}
+			} else {
+				return;
+			}
+
+			el.value = result;
+			el.selectionStart = el.selectionEnd = cursorPos;
+			$ta.trigger('input');
+			el.focus();
 		});
 
 		// ---------- Закрыть дропдауны при клике вне ----------

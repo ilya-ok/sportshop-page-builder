@@ -33,11 +33,11 @@ $bg_style = $bg_url ? ' style="background-image:url(' . esc_attr( $bg_url ) . ')
 
 		<div class="spb-calc-card__text">
 			<?php if ( $title ) : ?>
-				<h3 class="spb-calc-card__title"><?php echo esc_html( $title ); ?></h3>
+				<h3 class="spb-calc-card__title"><?php echo wp_kses_post( $title ); ?></h3>
 			<?php endif; ?>
 
 			<?php if ( $subtitle ) : ?>
-				<p class="spb-calc-card__subtitle"><?php echo esc_html( $subtitle ); ?></p>
+				<p class="spb-calc-card__subtitle"><?php echo wp_kses_post( $subtitle ); ?></p>
 			<?php endif; ?>
 		</div>
 
@@ -53,7 +53,7 @@ $bg_style = $bg_url ? ' style="background-image:url(' . esc_attr( $bg_url ) . ')
 						<rect x="9.5" y="17" width="5" height="4" rx="1"/>
 						<rect x="16" y="17" width="5" height="4" rx="1"/>
 					</svg>
-					<?php echo esc_html( $tag ); ?>
+					<?php echo wp_kses_post( $tag ); ?>
 				</span>
 			</div>
 		<?php endif; ?>
