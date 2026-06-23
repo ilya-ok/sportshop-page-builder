@@ -1,6 +1,6 @@
 # Sportshop Page Builder — индекс документации
 
-**Версия:** 1.0.0 | **Обновлено:** 2026-05-14
+**Версия:** 1.1.1 | **Обновлено:** 2026-06-23
 
 WordPress page builder без зависимостей. Структура: **строки → колонки → блоки**.
 
@@ -19,7 +19,7 @@ WordPress page builder без зависимостей. Структура: **с
 
 - **Meta key** — `_spb_blocks`. Содержит JSON: массив строк → колонки → блоки.
 - **Изображения** — хранится `post_name` (slug) вложения, **не ID**.
-- **JSON** — сохранять через `wp_json_encode($data, JSON_UNESCAPED_UNICODE)`, иначе кириллица ломается.
+- **JSON** — **обязательно** `wp_slash(wp_json_encode($data, JSON_UNESCAPED_UNICODE))` перед `update_post_meta`. Без `wp_slash` WordPress Core (`update_metadata`) стирает `\"` и `\n` → невалидный JSON, буква «n» вместо переносов. Подробнее: [DOCS/data.md](DOCS/data.md).
 - **Автовывод** — хук `the_content` в `SPB_Renderer`, никаких правок темы не нужно.
 - **Новый блок** — класс + шаблон + одна строка в `register_defaults()`, JS подхватывает автоматически.
 

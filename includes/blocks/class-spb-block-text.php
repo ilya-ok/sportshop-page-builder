@@ -17,7 +17,7 @@ class SPB_Block_Text extends SPB_Block_Base {
 	public function get_fields(): array {
 		return array(
 			array( 'name' => 'title', 'type' => 'text',     'label' => 'Заголовок' ),
-			array( 'name' => 'text',  'type' => 'textarea', 'label' => 'Текст' ),
+			array( 'name' => 'text',  'type' => 'wysiwyg',  'label' => 'Текст' ),
 		);
 	}
 }

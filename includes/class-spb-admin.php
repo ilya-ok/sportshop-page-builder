@@ -67,6 +67,7 @@ class SPB_Admin {
 		}
 
 		wp_enqueue_media();
+		wp_enqueue_editor();
 
 		wp_enqueue_style(
 			'spb-admin',
@@ -169,7 +170,7 @@ class SPB_Admin {
 			return;
 		}
 
-		update_post_meta( $post_id, SPB_META_KEY, wp_json_encode( $this->sanitize_rows( $rows ), JSON_UNESCAPED_UNICODE ) );
+		update_post_meta( $post_id, SPB_META_KEY, wp_slash( wp_json_encode( $this->sanitize_rows( $rows ), JSON_UNESCAPED_UNICODE ) ) );
 	}
 
 	private function sanitize_rows( array $rows ): array {

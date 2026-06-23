@@ -44,6 +44,8 @@
 	// ================================================================
 
 	function renderAll() {
+		if (typeof tinymce !== 'undefined') tinymce.triggerSave();
+		destroyAllEditors();
 		$rowsList.empty();
 		rows.forEach(function (row, ri) {
 			$rowsList.append(renderRow(row, ri));
@@ -218,6 +220,16 @@
 					.attr('data-field', field.name).val(value);
 				break;
 
+			case 'wysiwyg': {
+				var editorId = 'spbwysiwyg' + (++uid);
+				var $ta = $('<textarea class="large-text spb-wysiwyg-ta" rows="10">')
+					.attr('data-field', field.name)
+					.attr('id', editorId)
+					.val(value);
+				$ctrl = $('<div class="spb-wysiwyg-wrap">').append($ta);
+				break;
+			}
+
 			case 'html': {
 				var $toolbar = $('<div class="spb-html-toolbar">');
 				[
@@ -309,7 +321,19 @@
 				$(this).find('> .spb-col-blocks > .spb-block-item').each(function () {
 					var block = { type: $(this).attr('data-type') || '' };
 					$(this).find('[data-field]').each(function () {
-						block[$(this).data('field')] = $(this).val();
+						var $el = $(this);
+						var value;
+						if ($el.hasClass('spb-wysiwyg-ta') && typeof tinymce !== 'undefined') {
+							try {
+								var editor = tinymce.get($el.attr('id'));
+								value = editor ? editor.getContent() : $el.val();
+							} catch (e) {
+								value = $el.val();
+							}
+						} else {
+							value = $el.val();
+						}
+						block[$el.data('field')] = value;
 					});
 					col.blocks.push(block);
 				});
@@ -322,6 +346,43 @@
 
 	function syncJson() {
 		$jsonInput.val(JSON.stringify(rows));
+	}
+
+	// ================================================================
+	// WYSIWYG (TinyMCE)
+	// ================================================================
+
+	function initWysiwygEditor(id) {
+		if (!id || typeof wp === 'undefined' || !wp.editor) return;
+		if (typeof tinymce !== 'undefined' && tinymce.get(id)) return;
+
+		var syncTimer;
+		wp.editor.initialize(id, {
+			tinymce: {
+				wpautop: false,
+				plugins: 'charmap colorpicker directionality fullscreen hr image lists media paste tabfocus textcolor wordpress wpautoresize wpdialogs wpeditimage wpemoji wpgallery wplink',
+				toolbar1: 'formatselect bold italic | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | wp_add_media | fullscreen',
+				setup: function (editor) {
+					editor.on('change keyup', function () {
+						clearTimeout(syncTimer);
+						syncTimer = setTimeout(function () {
+							collectAndSync();
+						}, 300);
+					});
+				},
+			},
+			quicktags: {
+				buttons: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close',
+			},
+			mediaButtons: true,
+		});
+	}
+
+	function destroyAllEditors() {
+		if (typeof wp === 'undefined' || !wp.editor) return;
+		$('.spb-wysiwyg-ta').each(function () {
+			if (this.id) wp.editor.remove(this.id);
+		});
 	}
 
 	// ================================================================
@@ -433,20 +494,40 @@
 			$col.find('.spb-col-blocks').sortable('refresh');
 			syncJson();
 
+			// Инициализируем wysiwyg-редактор если он есть в новом блоке
+			setTimeout(function () {
+				$blockEl.find('.spb-wysiwyg-ta').each(function () {
+					initWysiwygEditor(this.id);
+				});
+			}, 50);
+
 			$(this).closest('.spb-block-picker').removeClass('is-open');
 		});
 
 		// Раскрыть/свернуть блок
 		$builder.on('click', '.spb-block-head', function (e) {
 			if ($(e.target).closest('.spb-block-del, .spb-block-drag').length) return;
-			$(this).closest('.spb-block-item').toggleClass('spb-block-item--open');
+			var $blockItem = $(this).closest('.spb-block-item');
+			var isOpen = $blockItem.hasClass('spb-block-item--open');
+			$blockItem.toggleClass('spb-block-item--open');
+			if (!isOpen) {
+				$blockItem.find('.spb-wysiwyg-ta').each(function () {
+					initWysiwygEditor(this.id);
+				});
+			}
 		});
 
 		// Удалить блок
 		$builder.on('click', '.spb-block-del', function (e) {
 			e.stopPropagation();
 			if (!confirm(spbConfig.strings.confirmBlock)) return;
-			$(this).closest('.spb-block-item').remove();
+			var $blockItem = $(this).closest('.spb-block-item');
+			if (typeof wp !== 'undefined' && wp.editor) {
+				$blockItem.find('.spb-wysiwyg-ta').each(function () {
+					if (this.id) wp.editor.remove(this.id);
+				});
+			}
+			$blockItem.remove();
 			collectAndSync();
 		});
 
@@ -530,6 +611,13 @@
 			el.selectionStart = el.selectionEnd = cursorPos;
 			$ta.trigger('input');
 			el.focus();
+		});
+
+		// ---------- Сохранение редакторов при submit ----------
+
+		$('form#post').on('submit', function () {
+			if (typeof tinymce !== 'undefined') tinymce.triggerSave();
+			collectAndSync();
 		});
 
 		// ---------- Закрыть дропдауны при клике вне ----------

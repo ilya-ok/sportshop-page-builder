@@ -37,6 +37,11 @@
 | `url` | `<input type="url">` | |
 | `select` | `<select>` | требует ключ `options: { value: label }` |
 | `image` | кнопка Media Uploader | хранит `post_name` (slug) файла |
+| `wysiwyg` | TinyMCE (визуальный редактор) | поддерживает шорткоды, HTML, вставку изображений через WP Media |
+
+**Поле `wysiwyg`:** инициализируется через `wp.editor.initialize()`. Плагины `wpview` и `wptextpattern` отключены — они преобразуют шорткоды в визуальные объекты и ломают `getContent()`, из-за чего строка в конструкторе исчезала при сохранении. Синхронизация: событие `change/keyup` → `collectAndSync()` с debounce 300 мс. Перед отправкой формы — `tinymce.triggerSave()`.
+
+Textarea wysiwyg-поля не имеет класса `spb-field__input` — намеренно, чтобы не срабатывал общий обработчик `change input`, который вызывал бы `renderAll()` и уничтожал TinyMCE при каждом нажатии клавиши.
 
 ## Добавить новый блок — чеклист
 

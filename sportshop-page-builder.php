@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Forbidden' );
 }
 
-define( 'SPB_VERSION', '1.0.0' );
+define( 'SPB_VERSION', '1.0.1' );
 define( 'SPB_PLUGIN_FILE', __FILE__ );
 define( 'SPB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SPB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -67,7 +67,7 @@ function spb_get_blocks( int $post_id ): array {
  * @param array $blocks
  */
 function spb_save_blocks( int $post_id, array $blocks ): void {
-	update_post_meta( $post_id, SPB_META_KEY, wp_json_encode( $blocks, JSON_UNESCAPED_UNICODE ) );
+	update_post_meta( $post_id, SPB_META_KEY, wp_slash( wp_json_encode( $blocks, JSON_UNESCAPED_UNICODE ) ) );
 }
 
 /**

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) die( 'Forbidden' );
 
 	<?php if ( ! empty( $block['text'] ) ) : ?>
 		<div class="spb-text__body">
-			<?php echo wp_kses_post( $block['text'] ); ?>
+			<?php echo do_shortcode( wp_kses_post( trim( $block['text'] ) ) ); ?>
 		</div>
 	<?php endif; ?>
 </div>

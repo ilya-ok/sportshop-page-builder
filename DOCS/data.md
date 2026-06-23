@@ -57,15 +57,17 @@ $url = spb_get_image_url('my-photo', 'large');
 
 ## Важные ограничения при сохранении
 
-**Всегда** использовать `JSON_UNESCAPED_UNICODE` при `wp_json_encode()`:
+**Всегда** оборачивать JSON в `wp_slash()` перед `update_post_meta()`:
 ```php
-wp_json_encode($data, JSON_UNESCAPED_UNICODE)
+update_post_meta($post_id, SPB_META_KEY, wp_slash(wp_json_encode($data, JSON_UNESCAPED_UNICODE)));
 ```
 
-**Почему:** без этого флага кириллица кодируется как `К...`.
-Затем WordPress magic quotes добавляет слеш: `\\u041a`.
-`wp_unslash` убирает лишний слеш: `К` → корректно.
-Но в некоторых конфигурациях слеш обрезается лишний раз → на фронте появляется `u041a...` вместо текста.
-С `JSON_UNESCAPED_UNICODE` кириллица хранится напрямую и проблема исключена.
+**Почему `wp_slash` обязателен:** WordPress Core в `update_metadata()` вызывает `wp_unslash()` (stripslashes) на значении перед сохранением. Это стирает JSON-экранирование backslash-ами:
+- `\"` (JSON-escape кавычки) → `"` — голая кавычка ломает JSON-структуру → `json_decode` фейлится → страница билдера пустая
+- `\n` (JSON-escape переноса строки) → `n` — в тексте появляется буква «n» вместо переноса строки
 
-`spb_get_blocks()` содержит fallback-декодирование через `stripslashes()` для совместимости со старыми данными.
+`wp_slash()` (addslashes) перед передачей удваивает backslash-ы. `wp_unslash()` в WordPress убирает один уровень — в итоге корректный JSON попадает в `$wpdb` и хранится в БД.
+
+`get_post_meta()` возвращает значение из БД **без** `wp_unslash` — JSON читается как есть, `json_decode()` работает корректно.
+
+**`JSON_UNESCAPED_UNICODE` обязателен:** без него кириллица кодируется как `\uXXXX`. `wp_unslash()` в цепочке стирает backslash → `u041a` вместо буквы на фронте. С флагом кириллица хранится напрямую и проблема исключена.
